@@ -1,0 +1,425 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<style>
+    .alerts-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+    }
+    
+    .page-title {
+        color: var(--forest-dark);
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+    
+    .alert-card {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 1.5rem;
+        overflow: hidden;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .alert-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    }
+    
+    .alert-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .alert-location {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--forest-dark);
+        margin: 0;
+    }
+    
+    .alert-meta {
+        display: flex;
+        gap: 1rem;
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+    
+    .alert-body {
+        padding: 1.5rem;
+    }
+    
+    .alert-description {
+        color: #495057;
+        margin-bottom: 1.5rem;
+    }
+    
+    .alert-image {
+        width: 100%;
+        max-height: 300px;
+        object-fit: cover;
+        border-radius: 5px;
+        margin-bottom: 1.5rem;
+    }
+    
+    .alert-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        padding: 1rem 1.5rem;
+        background-color: #f8f9fa;
+        border-top: 1px solid #eee;
+    }
+    
+    .btn-action {
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        border: none;
+        transition: all 0.3s;
+    }
+    
+    .btn-view {
+        background-color: var(--forest-light);
+        color: white;
+    }
+    
+    .btn-view:hover {
+        background-color: var(--forest-medium);
+    }
+    
+    .btn-process {
+        background-color: #ffc107;
+        color: #212529;
+    }
+    
+    .btn-process:hover {
+        background-color: #e0a800;
+    }
+    
+    .btn-resolve {
+        background-color: #28a745;
+        color: white;
+    }
+    
+    .btn-resolve:hover {
+        background-color: #218838;
+    }
+    
+    .status-badge {
+        padding: 0.25rem 0.5rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+    
+    .status-new {
+        background-color: #d4edff;
+        color: #004085;
+    }
+    
+    .status-in-progress {
+        background-color: #fff3cd;
+        color: #856404;
+    }
+    
+    .status-resolved {
+        background-color: #d4edda;
+        color: #155724;
+    }
+    
+    .no-alerts {
+        text-align: center;
+        padding: 3rem;
+        color: #6c757d;
+    }
+    
+    .filters {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    
+    .search-box {
+        flex: 1;
+        min-width: 250px;
+        position: relative;
+    }
+    
+    .search-box input {
+        width: 100%;
+        padding: 0.5rem 1rem 0.5rem 2.5rem;
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+    }
+    
+    .search-box i {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #6c757d;
+    }
+    
+    .status-filter {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+    
+    .status-filter button {
+        padding: 0.5rem 1rem;
+        border: 1px solid #ced4da;
+        background: white;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    
+    .status-filter button.active {
+        background-color: var(--forest-medium);
+        color: white;
+        border-color: var(--forest-medium);
+    }
+    
+    .status-filter button:hover {
+        background-color: #f8f9fa;
+    }
+    
+    .status-filter button.active:hover {
+        background-color: var(--forest-dark);
+    }
+    
+    @media (max-width: 768px) {
+        .filters {
+            flex-direction: column;
+        }
+        
+        .search-box {
+            width: 100%;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="alerts-container">
+    <h1 class="page-title">Gestion des alertes</h1>
+    
+    <div class="filters">
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="Rechercher par localisation ou description...">
+        </div>
+        
+        <div class="status-filter">
+            <button class="active" data-status="all">Toutes</button>
+            <button data-status="new">Nouvelles</button>
+            <button data-status="in_progress">En cours</button>
+            <button data-status="resolved">Résolues</button>
+        </div>
+    </div>
+    
+    <div id="alertsList">
+        <!-- Les alertes seront chargées ici dynamiquement -->
+        <div class="no-alerts">
+            <i class="fas fa-inbox fa-3x mb-3"></i>
+            <p>Aucune alerte pour le moment</p>
+        </div>
+    </div>
+</div>
+
+<!-- Template pour une alerte -->
+<template id="alertTemplate">
+    <div class="alert-card">
+        <div class="alert-header">
+            <h3 class="alert-location"></h3>
+            <div class="alert-meta">
+                <span class="alert-date"></span>
+                <span class="status-badge"></span>
+            </div>
+        </div>
+        <div class="alert-body">
+            <p class="alert-description"></p>
+            <img class="alert-image" src="" alt="Image de l'alerte" style="display: none;">
+        </div>
+        <div class="alert-actions">
+            <button class="btn-action btn-view" onclick="viewOnMap(this)">
+                <i class="fas fa-map-marker-alt"></i> Voir sur la carte
+            </button>
+            <button class="btn-action btn-process" onclick="updateStatus(this, 'in_progress')">
+                <i class="fas fa-spinner"></i> En cours
+            </button>
+            <button class="btn-action btn-resolve" onclick="updateStatus(this, 'resolved')">
+                <i class="fas fa-check"></i> Résoudre
+            </button>
+        </div>
+    </div>
+</template>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Fonction pour charger les alertes
+    function loadAlerts(filter = 'all', search = '') {
+        fetch(`/api/alerts?status=${filter}&search=${encodeURIComponent(search)}`)
+            .then(response => response.json())
+            .then(data => {
+                const alertsList = document.getElementById('alertsList');
+                
+                if (data.length === 0) {
+                    alertsList.innerHTML = `
+                        <div class="no-alerts">
+                            <i class="fas fa-inbox fa-3x mb-3"></i>
+                            <p>Aucune alerte trouvée</p>
+                        </div>`;
+                    return;
+                }
+                
+                alertsList.innerHTML = '';
+                const template = document.getElementById('alertTemplate');
+                
+                data.forEach(alert => {
+                    const alertElement = template.content.cloneNode(true);
+                    
+                    // Remplir les données
+                    alertElement.querySelector('.alert-location').textContent = alert.location || 'Localisation inconnue';
+                    alertElement.querySelector('.alert-date').textContent = new Date(alert.timestamp).toLocaleString();
+                    alertElement.querySelector('.alert-description').textContent = alert.description || 'Aucune description fournie';
+                    
+                    // Gérer l'image si elle existe
+                    const imgElement = alertElement.querySelector('.alert-image');
+                    if (alert.image) {
+                        imgElement.src = alert.image;
+                        imgElement.style.display = 'block';
+                    }
+                    
+                    // Mettre à jour le statut
+                    const statusBadge = alertElement.querySelector('.status-badge');
+                    updateStatusBadge(statusBadge, alert.status);
+                    
+                    // Mettre à jour les boutons en fonction du statut
+                    updateActionButtons(alertElement, alert.status);
+                    
+                    alertsList.appendChild(alertElement);
+                });
+            })
+            .catch(error => {
+                console.error('Erreur lors du chargement des alertes:', error);
+            });
+    }
+    
+    // Fonction pour mettre à jour le badge de statut
+    function updateStatusBadge(element, status) {
+        element.className = 'status-badge';
+        
+        switch(status) {
+            case 'new':
+                element.textContent = 'Nouveau';
+                element.classList.add('status-new');
+                break;
+            case 'in_progress':
+                element.textContent = 'En cours';
+                element.classList.add('status-in-progress');
+                break;
+            case 'resolved':
+                element.textContent = 'Résolu';
+                element.classList.add('status-resolved');
+                break;
+        }
+    }
+    
+    // Fonction pour mettre à jour les boutons d'action en fonction du statut
+    function updateActionButtons(alertElement, status) {
+        const btnProcess = alertElement.querySelector('.btn-process');
+        const btnResolve = alertElement.querySelector('.btn-resolve');
+        
+        // Réinitialiser les boutons
+        btnProcess.style.display = 'inline-block';
+        btnResolve.style.display = 'inline-block';
+        
+        // Désactiver les boutons en fonction du statut
+        if (status === 'in_progress') {
+            btnProcess.disabled = true;
+            btnProcess.innerHTML = '<i class="fas fa-spinner"></i> En cours';
+        } else if (status === 'resolved') {
+            btnProcess.style.display = 'none';
+            btnResolve.disabled = true;
+            btnResolve.innerHTML = '<i class="fas fa-check"></i> Résolu';
+        }
+    }
+    
+    // Fonction pour mettre à jour le statut d'une alerte
+    function updateStatus(button, newStatus) {
+        const alertCard = button.closest('.alert-card');
+        const alertId = alertCard.dataset.alertId; // À implémenter si nécessaire
+        
+        fetch(`/api/alerts/${alertId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ status: newStatus })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                // Recharger les alertes
+                const currentFilter = document.querySelector('.status-filter button.active').dataset.status;
+                const searchTerm = document.getElementById('searchInput').value;
+                loadAlerts(currentFilter, searchTerm);
+            }
+        })
+        .catch(error => {
+            console.error('Erreur lors de la mise à jour du statut:', error);
+        });
+    }
+    
+    // Fonction pour afficher l'alerte sur la carte
+    function viewOnMap(button) {
+        const alertCard = button.closest('.alert-card');
+        const location = alertCard.querySelector('.alert-location').textContent;
+        // Implémentez la logique pour afficher sur la carte
+        alert(`Afficher sur la carte: ${location}`);
+    }
+    
+    // Initialisation
+    document.addEventListener('DOMContentLoaded', function() {
+        // Charger toutes les alertes au chargement de la page
+        loadAlerts();
+        
+        // Gérer les filtres de statut
+        document.querySelectorAll('.status-filter button').forEach(button => {
+            button.addEventListener('click', function() {
+                document.querySelector('.status-filter button.active').classList.remove('active');
+                this.classList.add('active');
+                
+                const status = this.dataset.status;
+                const searchTerm = document.getElementById('searchInput').value;
+                loadAlerts(status, searchTerm);
+            });
+        });
+        
+        // Gérer la recherche
+        const searchInput = document.getElementById('searchInput');
+        let searchTimeout;
+        
+        searchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            
+            searchTimeout = setTimeout(() => {
+                const status = document.querySelector('.status-filter button.active').dataset.status;
+                loadAlerts(status, this.value);
+            }, 500);
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<style>
+    .video-container {
+        position: relative;
+        background-color: #000;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+        min-height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .video-placeholder {
+        width: 100%;
+        height: auto;
+        max-height: 500px;
+        object-fit: contain;
+    }
+    
+    #video-feed {
+        width: 100%;
+        height: auto;
+        max-height: 500px;
+        object-fit: contain;
+    }
+    
+    .controls-card {
+        border-radius: 10px;
+        margin-bottom: 1.5rem;
+    }
+    
+    .status-panel {
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        padding: 1.5rem;
+    }
+    
+    .status-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+    
+    .status-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: var(--forest-medium);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+    }
+    
+    .status-text {
+        flex-grow: 1;
+    }
+    
+    .status-label {
+        font-weight: bold;
+        margin-bottom: 0.25rem;
+    }
+    
+    .status-value {
+        color: #6c757d;
+    }
+    
+    .record-dot {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        background-color: var(--alert-color);
+        border-radius: 50%;
+        animation: blink 1s infinite;
+        margin-right: 0.5rem;
+    }
+    
+    .progress {
+        height: 10px;
+        border-radius: 5px;
+    }
+    
+    .btn-control {
+        min-width: 120px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-forest text-white">
+                    <h5 class="mb-0"><i class="fas fa-video me-2"></i>Surveillance Vidéo en Direct</h5>
+                </div>
+                <div class="card-body">
+                    <p>Connectez-vous à un flux vidéo pour surveiller les forêts en temps réel avec détection automatique d'incendies et de fumée.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Colonne vidéo -->
+        <div class="col-lg-8">
+            <div class="video-container">
+                <img src="{{ url_for('static', filename='img/forest-placeholder.jpg') }}" id="video-placeholder" class="video-placeholder" style="display: none;">
+                <img src="{{ url_for('video_feed') }}" id="video-feed" class="video-feed">
+            </div>
+            
+            <div class="card controls-card">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-6 mb-3 mb-md-0">
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-camera"></i></span>
+                                <input type="text" class="form-control" id="camera-source" placeholder="URL du flux vidéo ou ID de caméra" value="http://172.22.5.85:5000/video_feed">
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-md-end">
+                            <button class="btn btn-success btn-control me-2" id="start-stream">
+                                <i class="fas fa-play me-2"></i>Démarrer
+                            </button>
+                            <button class="btn btn-danger btn-control" id="stop-stream" disabled>
+                                <i class="fas fa-stop me-2"></i>Arrêter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Colonne statut -->
+        <div class="col-lg-4">
+            <div class="card mb-4">
+                <div class="card-header bg-forest-light text-white">
+                    <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Statut de Détection</h5>
+                </div>
+                <div class="card-body">
+                    <div class="status-item">
+                        <div class="status-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="status-text">
+                            <div class="status-label">Temps de Surveillance</div>
+                            <div class="status-value" id="monitoring-time">00:00:00</div>
+                        </div>
+                    </div>
+                    
+                    <div class="status-item">
+                        <div class="status-icon">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <div class="status-text">
+                            <div class="status-label">Alertes Détectées</div>
+                            <div class="status-value" id="alert-count">0</div>
+                        </div>
+                    </div>
+                    
+                    <div class="status-item">
+                        <div class="status-icon">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <div class="status-text">
+                            <div class="status-label">Niveau de Risque</div>
+                            <div class="progress mt-2">
+                                <div class="progress-bar bg-success" id="risk-level" role="progressbar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="status-item">
+                        <div class="status-icon">
+                            <i class="fas fa-signal"></i>
+                        </div>
+                        <div class="status-text">
+                            <div class="status-label">État du Flux</div>
+                            <div class="status-value" id="stream-status">
+                                <span class="badge bg-secondary">Inactif</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header bg-forest-light text-white">
+                    <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Informations Système</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <strong>Modèle de Détection:</strong>
+                        <span>YOLOv8 ({{ "Actif" if yolo_available else "Non disponible" }})</span>
+                    </div>
+                    <div class="mb-3">
+                        <strong>Classes Détectées:</strong>
+                        <span>Feu, Fumée</span>
+                    </div>
+                    <div>
+                        <strong>Dernière Mise à Jour:</strong>
+                        <span id="last-update">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/monitoring.js') }}"></script>
+{% endblock %}

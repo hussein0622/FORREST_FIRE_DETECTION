@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<style>
+    .mission-card {
+        background: linear-gradient(135deg, rgba(27, 94, 32, 0.9), rgba(46, 125, 50, 0.8)), url('/static/img/forest-bg.jpg');
+        background-size: cover;
+        color: white;
+        padding: 2rem;
+        border-radius: 10px;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .quote-card {
+        background-color: #f8f9fa;
+        border-left: 5px solid var(--forest-medium);
+        padding: 1.5rem;
+        font-style: italic;
+        margin-bottom: 2rem;
+    }
+    
+    .stat-card {
+        text-align: center;
+        padding: 1.5rem;
+        transition: transform 0.3s;
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .stat-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: var(--forest-medium);
+    }
+    
+    .stat-value {
+        font-size: 2rem;
+        font-weight: bold;
+        color: var(--forest-dark);
+    }
+    
+    .stat-label {
+        color: #6c757d;
+        font-size: 1rem;
+    }
+    
+    .feature-card {
+        height: 100%;
+        transition: transform 0.3s;
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .feature-icon {
+        font-size: 2rem;
+        color: var(--forest-medium);
+        margin-bottom: 1rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Mission Section -->
+    <div class="mission-card">
+        <h2 class="mb-4">Bienvenue sur GreenSentinel</h2>
+        <p class="lead">{{ mission }}</p>
+    </div>
+    
+    <!-- Quote Section -->
+    <div class="quote-card">
+        <p class="mb-0">{{ quote }}</p>
+    </div>
+    
+    <!-- Statistics Section -->
+    <h3 class="mb-4">Tableau de Bord</h3>
+    <div class="row mb-5">
+        <div class="col-md-3">
+            <div class="card stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-tree"></i>
+                </div>
+                <div class="stat-value">{{ stats.forests_monitored }}</div>
+                <div class="stat-label">Forêts Surveillées</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <div class="stat-value">{{ stats.alerts_today }}</div>
+                <div class="stat-label">Alertes Aujourd'hui</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-history"></i>
+                </div>
+                <div class="stat-value">{{ stats.total_alerts }}</div>
+                <div class="stat-label">Alertes Totales</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-value">{{ stats.detection_accuracy }}%</div>
+                <div class="stat-label">Précision de Détection</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Features Section -->
+    <h3 class="mb-4">Nos Fonctionnalités</h3>
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card feature-card">
+                <div class="card-body text-center">
+                    <div class="feature-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h5 class="card-title">Surveillance Vidéo</h5>
+                    <p class="card-text">Connectez-vous à des flux vidéo en direct pour surveiller les zones forestières en temps réel.</p>
+                    <a href="{{ url_for('monitoring') }}" class="btn btn-outline-success">Accéder</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card feature-card">
+                <div class="card-body text-center">
+                    <div class="feature-icon">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <h5 class="card-title">Détection d'Incendies</h5>
+                    <p class="card-text">Notre système utilise l'IA pour détecter automatiquement les incendies et la fumée dans les flux vidéo.</p>
+                    <a href="{{ url_for('monitoring') }}" class="btn btn-outline-success">Essayer</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card feature-card">
+                <div class="card-body text-center">
+                    <div class="feature-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h5 class="card-title">Alertes Citoyennes</h5>
+                    <p class="card-text">Recevez et gérez les alertes envoyées par les citoyens concernant des incendies potentiels.</p>
+                    <a href="{{ url_for('alerts') }}" class="btn btn-outline-success">Voir les alertes</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

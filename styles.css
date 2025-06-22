@@ -1,0 +1,181 @@
+/* Styles pour le système de protection des forêts */
+
+/* Variables de couleurs */
+:root {
+    --forest-dark: #1b5e20;
+    --forest-medium: #2e7d32;
+    --forest-light: #4caf50;
+    --forest-pale: #a5d6a7;
+    --alert-color: #f44336;
+}
+
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Éléments d'en-tête */
+.bg-forest {
+    background-color: var(--forest-dark);
+}
+
+.bg-forest-light {
+    background-color: var(--forest-medium);
+}
+
+.logo {
+    text-align: center;
+}
+
+/* Conteneur vidéo */
+.video-container {
+    min-height: 300px;
+    max-height: 600px;
+    background-color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+#video-feed {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Styles pour la page d'alerte */
+.alert-form {
+    max-width: 700px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.form-title {
+    color: var(--forest-dark);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-control, .form-select, .form-textarea {
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 0.75rem;
+    width: 100%;
+    margin-top: 0.5rem;
+}
+
+.btn-submit {
+    background-color: var(--forest-medium);
+    color: white;
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+.btn-submit:hover {
+    background-color: var(--forest-dark);
+}
+
+.image-preview {
+    max-width: 100%;
+    max-height: 300px;
+    margin-top: 1rem;
+    display: none;
+    border-radius: 5px;
+}
+
+.success-message {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 1rem;
+    border-radius: 5px;
+    margin-bottom: 1.5rem;
+    display: none;
+}
+
+/* Indicateur d'enregistrement */
+.record-dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background-color: var(--alert-color);
+    border-radius: 50%;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.4; }
+    100% { opacity: 1; }
+}
+
+/* Boutons et contrôles */
+.btn-success {
+    background-color: var(--forest-medium);
+    border-color: var(--forest-dark);
+}
+
+.btn-success:hover, .btn-success:focus {
+    background-color: var(--forest-dark);
+    border-color: var(--forest-dark);
+}
+
+/* Indicateurs et alertes */
+.status-indicator {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+#status-badge {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.75rem;
+}
+
+#status-badge.bg-success {
+    background-color: var(--forest-light) !important;
+}
+
+/* Cartes et panneaux */
+.card {
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.card-header {
+    border-bottom: none;
+}
+
+/* Pied de page */
+.footer {
+    margin-top: auto;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+    
+    h4 {
+        font-size: 1rem;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+}
