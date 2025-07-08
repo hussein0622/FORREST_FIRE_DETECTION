@@ -1,4 +1,4 @@
-# 🌲 GreenSentinel
+# GreenSentinel
 **Système professionnel de surveillance et protection des forêts avec détection intelligente d'incendies**
 
 ---
@@ -7,7 +7,7 @@ GreenSentinel est une solution complète de surveillance des forêts, combinant 
 
 ---
 
-## 🚀 Fonctionnalités principales
+## Fonctionnalités principales
 - Interface web responsive et professionnelle (Bootstrap)
 - Tableau de bord avec mission et statistiques en temps réel
 - Connexion à des flux vidéo locaux (caméra) ou distants (RTSP)
@@ -18,7 +18,7 @@ GreenSentinel est une solution complète de surveillance des forêts, combinant 
 
 ---
 
-## 📦 Architecture du projet
+## Architecture du projet
 
 ```
 GreenSentinel/
@@ -52,7 +52,7 @@ GreenSentinel/
 
 ---
 
-## 🛠️ Prérequis
+## Prérequis
 - Python 3.8 ou supérieur
 - Flask
 - OpenCV
@@ -62,7 +62,7 @@ GreenSentinel/
 
 ---
 
-## ⚡ Installation
+## Installation
 1. Clonez le dépôt et placez-vous dans le dossier du projet.
 2. Installez les dépendances :
    ```bash
@@ -72,7 +72,7 @@ GreenSentinel/
 
 ---
 
-## ▶️ Lancement
+##  Lancement
 ```bash
 python forest_protection_server.py
 ```
@@ -80,7 +80,7 @@ Puis ouvrez [http://localhost:5000](http://localhost:5000) dans votre navigateur
 
 ---
 
-## 📁 Description des principaux fichiers
+## Description des principaux fichiers
 - **forest_protection_server.py** : Backend Flask, gestion du streaming vidéo, détection IA, endpoints API, gestion des alertes
 - **static/** : Fichiers statiques (CSS, JS, images)
 - **templates/** : Pages HTML pour l’UI (utilise Jinja2)
@@ -90,7 +90,7 @@ Puis ouvrez [http://localhost:5000](http://localhost:5000) dans votre navigateur
 
 ---
 
-## 🤝 Contribution & Support
+## Contribution & Support
 - Pour toute suggestion, bug ou contribution, ouvrez une issue ou une pull request sur le dépôt.
 - Contact : [Votre Email ou lien GitHub]
 
