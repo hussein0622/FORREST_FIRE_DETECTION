@@ -23,7 +23,7 @@ GreenSentinel est une solution complète de surveillance des forêts, combinant 
 ```
 GreenSentinel/
 │
-├── static/                        # Fichiers statiques (frontend)
+├── static/                        # Fichiers statiques 
 │   ├── css/
 │   │   └── styles.css
 │   ├── js/
@@ -33,7 +33,7 @@ GreenSentinel/
 │       ├── forest-bg.jpg
 │       └── forest-placeholder.jpg
 │
-├── templates/                     # Templates HTML (Jinja2)
+├── templates/                     # Templates HTML 
 │   ├── admin/
 │   │   └── alerts.html
 │   ├── alerts.html
@@ -45,8 +45,7 @@ GreenSentinel/
 │
 ├── alerts.db                      # Base de données SQLite des alertes
 ├── forest_protection_server.py    # Serveur Flask principal
-├── last.pt                        # Modèle YOLOv8 entraîné pour la détection d'incendies
-├── README.md                      # Documentation générale
+├── last.pt                        # Modèle YOLOv8 entraîné pour la détection d'incendies                      
 └── README_FOREST_PROTECTION.md    # Documentation détaillée du module
 ```
 
@@ -96,7 +95,7 @@ Puis ouvrez [http://localhost:5000](http://localhost:5000) dans votre navigateur
 
 ---
 
-> **GreenSentinel** : Protégeons nos forêts grâce à l’IA et à l’engagement citoyen 🌳🔥
+> **GreenSentinel** : Protégeons nos forêts grâce à l’IA et à l’engagement citoyen 
 
 - Python 3.8 ou supérieur
 - OpenCV
@@ -159,40 +158,6 @@ python forest_protection_server.py
 
 L'application sera accessible à l'adresse IP de votre Raspberry Pi sur le port 5000.
 
-## Structure des fichiers
-
-```
-heart_failure_prediction/
-│
-├── forest_protection_server.py         # Serveur Flask principal
-├── requirements_forest.txt             # Dépendances spécifiques à ce module
-│
-├── templates/
-│   ├── admin/
-│   │   └── alerts.html
-│   ├── alerts.html
-│   ├── base.html
-│   ├── dashboard.html
-│   ├── forest_protection.html
-│   ├── monitoring.html
-│   └── submit_alert.html
-│
-├── static/
-│   ├── css/
-│   │   └── styles.css
-│   ├── js/
-│   │   ├── forest_protection.js
-│   │   └── monitoring.js
-│   └── img/
-│       ├── forest-bg.jpg
-│       └── forest-placeholder.jpg
-│
-├── models/
-│   └── last.pt                        # Modèle YOLOv8 entraîné
-│
-├── README_FOREST_PROTECTION.md        # Documentation détaillée (ce fichier)
-└── ...
-```
 
 ### Détail des principaux fichiers et dossiers
 
@@ -202,7 +167,7 @@ heart_failure_prediction/
 - `static/css/styles.css` : Feuilles de style personnalisées.
 - `static/js/forest_protection.js`, `monitoring.js` : Scripts JS pour l’UI et le monitoring.
 - `static/img/forest-bg.jpg`, `forest-placeholder.jpg` : Images d’illustration.
-- `models/last.pt` : Modèle YOLOv8 pour la détection d’incendies.
+- `last.pt` : Modèle YOLOv8 pour la détection d’incendies.
 - `README_FOREST_PROTECTION.md` : Documentation détaillée du système.
 
 N'hésitez pas à adapter cette structure selon vos besoins spécifiques ou extensions futures.
