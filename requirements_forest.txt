@@ -1,0 +1,9 @@
+Flask==2.3.3
+opencv-python==4.8.0
+numpy==1.24.3
+ultralytics==8.0.196
+Werkzeug==2.3.7
+Jinja2==3.1.2
+MarkupSafe==2.1.3
+itsdangerous==2.1.2
+click==8.1.7
